@@ -11,6 +11,39 @@ This repository contains a collection of networking commands / notes for easier 
 - Select Internet Protocol Version 4 (TCP/IPv4) and click Properties.
 - Change IP Address, Subnet mask, Default gateway.
 
+## Reloading a host device
+`en`<br>
+`delete vlan.dat`<br>
+`erase startup-config`<br>
+`reload`<br>
+
+- Issue the reload command to remove an old configuration from memory. When prompted to Proceed with reload, press Enter to confirm the reload. Pressing any other key will abort the reload.
+
+```
+Router# reload
+Proceed with reload? [confirm]
+*Nov 29 18:28:09.923: %SYS-5-RELOAD: Reload requested by console.
+Reload Reason: Reload Command. 
+```
+
+- You may receive a prompt to save the running configuration prior to reloading the router. Respond by typing no and press Enter. 
+
+```
+System configuration has been modified. Save? [yes/no]: no
+```
+
+- After the router reloads, you are prompted to enter the initial configuration dialog. Enter no and press Enter.
+
+```
+Would you like to enter the initial configuration dialog? [yes/no]: no
+```
+
+- You will be prompted to terminate the autoinstall program. Respond yes and then press Enter.
+
+```
+Would you like to terminate autoinstall? [yes]: yes
+```
+
 ## Commands from host
 
 ### ping
@@ -25,14 +58,7 @@ This repository contains a collection of networking commands / notes for easier 
 `tracert <ip address>`
 - Trace the route a data packet takes before reaching its destination, displaying information on each hop along the route.
 
-### reload
-`delete vlan.dat`
-`erase startup-config`
-`reload`
-- To erase startup config and reboot routers.
-
 ## Lab 2a
->>>>>>> 61c8cb318553f7526100ad363bf3b3ad1fa4f2ee
 
 ### enable
 `en`
