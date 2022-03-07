@@ -33,9 +33,16 @@
     + [Remove VLAN ID from the VLAN database.](#remove-vlan-id-from-the-vlan-database)
     + [Initiate trunking on interface](#initiate-trunking-on-interface)
     + [show interfaces trunk](#show-interfaces-trunk)
+  * [Lab 3b](#lab-3b)
+    + [no shutdown](#no-shutdown)
+    + [channel-group](#channel-group)
+    + [show run interface](#show-run-interface)
+    + [show interfaces](#show-interfaces-1)
+    + [show etherchannel summary](#show-etherchannel-summary)
+    + [Configuring trunk ports (EtherChannel)](#configuring-trunk-ports--etherchannel-)
+    + [Configure LACP](#configure-lacp)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 ## About
 This repository contains a collection of networking commands / notes for easier referencing in my networking module **(ICT 1010 Computer Networks)**.
 
@@ -418,3 +425,137 @@ Port Vlans in spanning tree forwarding state and not pruned
 Fa0/1 1,10,20 
 ```
 
+## Lab 3b
+
+### no shutdown
+`no shutdown`
+- Requires **CONF T** mode to use.
+- Requires **INTERFACE CONFIG MODE** to use.
+- enables an interface (brings it up).
+
+### channel-group
+`channel-group <n> <mode>`
+
+- Requires **CONF T** mode to use.
+- Creates channel group for EtherChannel with selected mode
+- modes:
+    - desirable
+    - auto
+
+example output:
+```
+S1(config)# interface range g1/0/3-4
+S1(config-if-range)# channel-group 1 mode desirable
+
+Creating a port-channel interface Port-channel 1
+
+S1(config-if-range)# no shutdown
+
+S3(config)# interface range g1/0/3-4
+S3(config-if-range)# channel-group 1 mode auto
+
+Creating a port-channel interface Port-channel 1
+
+S3(config-if-range)# no shutdown 
+```
+
+### show run interface
+`show run interface <interface>`
+
+- Displays interface configurations.
+
+sample output:
+```
+S1# show run interface g1/0/3
+Building configuration...
+Current configuration : 70 bytes
+!
+Interface GigabitEthernet1/0/3
+ channel-group 1 mode desirable
+```
+
+### show interfaces
+`show interfaces <interface>`
+
+- Displays curent interface information.
+
+sample output:
+```
+FastEthernet0/1 is down, line protocol is down (disabled)
+  Hardware is Lance, address is 00e0.f9cc.1801 (bia 00e0.f9cc.1801)
+ BW 100000 Kbit, DLY 1000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Half-duplex, 100Mb/s
+  input flow-control is off, output flow-control is off
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:08, output 00:00:05, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue :0/40 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     956 packets input, 193351 bytes, 0 no buffer
+     Received 956 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     0 watchdog, 0 multicast, 0 pause input
+     0 input packets with dribble condition detected
+     2357 packets output, 263570 bytes, 0 underruns
+     0 output errors, 0 collisions, 10 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+```
+
+### show etherchannel summary
+`show etherchannel sumamry`
+
+- Displays etherchannel summary
+
+sample output:
+```
+S1# show etherchannel summary
+Flags: D - down P - bundled in port-channel
+ I - stand-alone s - suspended
+ H - Hot-standby (LACP only)
+ R - Layer3 S - Layer2
+ U - in use f - failed to allocate aggregator
+ M - not in use, minimum links not met
+ u - unsuitable for bundling
+w - waiting to be aggregated
+d - default port
+Number of channel-groups in use: 1
+Number of aggregators: 1
+Group Port-channel Protocol Ports
+------+-------------+-----------+-----------------------------------------------
+1 Po1(SU) PAgP Gi1/0/3(P) Gi1/0/4(P)
+```
+
+### Configuring trunk ports (EtherChannel)
+- After the ports have been aggregated, commands applied at the port channel interface affect all the links that were bundled together. Manually configure the Po1 ports on S1 and S3 as trunk ports. 
+
+```
+S1(config)# interface port-channel 1
+S1(config-if)# switchport mode trunk
+S3(config)# interface port-channel 1
+S3(config-if)# switchport mode trunk 
+```
+
+### Configure LACP
+- LACP is an open source protocol for link aggregation developed by the IEEE. In Part 3, the link between S1 and S2 will be configured using LACP. Also, the individual links will be configured as trunks before they are
+bundled together as EtherChannels.
+
+```
+S1(config)# interface range g1/0/1-2
+S1(config-if-range)# switchport mode trunk
+S1(config-if-range)# channel-group 2 mode active
+Creating a port-channel interface Port-channel 2
+S1(config-if-range)# no shutdown
+S2(config)# interface range g0/1-2
+S2(config-if-range)# switchport mode trunk
+S2(config-if-range)# channel-group 2 mode passive
+Creating a port-channel interface Port-channel 2
+S2(config-if-range)# no shutdown 
+```
