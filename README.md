@@ -25,7 +25,14 @@ This repository contains a collection of networking commands / notes for easier 
 `tracert <ip address>`
 - Trace the route a data packet takes before reaching its destination, displaying information on each hop along the route.
 
+### reload
+`delete vlan.dat`
+`erase startup-config`
+`reload`
+- To erase startup config and reboot routers.
+
 ## Lab 2a
+>>>>>>> 61c8cb318553f7526100ad363bf3b3ad1fa4f2ee
 
 ### enable
 `en`
