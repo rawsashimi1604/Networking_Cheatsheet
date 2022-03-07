@@ -41,8 +41,15 @@
     + [show etherchannel summary](#show-etherchannel-summary)
     + [Configuring trunk ports (EtherChannel)](#configuring-trunk-ports--etherchannel-)
     + [Configure LACP](#configure-lacp)
+  * [Lab 4b](#lab-4b)
+    + [Exporting Configurations from Cisco Packet Tracer](#exporting-configurations-from-cisco-packet-tracer)
+    + [ip address](#ip-address)
+    + [show ip interface brief](#show-ip-interface-brief-1)
+    + [Setting up a interface's IP Address](#setting-up-a-interface-s-ip-address)
+    + [Configuring a loopback interface](#configuring-a-loopback-interface)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 ## About
 This repository contains a collection of networking commands / notes for easier referencing in my networking module **(ICT 1010 Computer Networks)**.
 
@@ -559,3 +566,79 @@ S2(config-if-range)# channel-group 2 mode passive
 Creating a port-channel interface Port-channel 2
 S2(config-if-range)# no shutdown 
 ```
+
+## Lab 4b
+
+### Exporting Configurations from Cisco Packet Tracer
+- On the Packet Tracer workspace, select the network device and then click on
+the Config tab in the device configuration window.
+- Next, click on the Export button to export the Running Config to a file, say
+S1_running-config.txt. 
+- Reload switch / Router.
+- Remove each instance of --More-- if it exists. (on .txt file)
+- Delete the initial lines so that the first line starts with the first configuration command as shown below: 
+```
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption 
+```
+- Launch Tera Term and establish a console connection.
+- Enter global config mode.
+```
+Switch> enable
+Switch# configure terminal
+Switch(config)# 
+```
+- From the Tera Term File menu, select Send file...
+- Locate the configuration file S1_running-config.txt and select Open.
+- Import is now in progress. When done, verify the running config and the VLAN
+in the switch.
+
+
+### ip address
+`ip address <ip-adr> <mask>`
+- Requires **CONF T** mode to use.
+- Requires **INTERFACE CONFIG MODE** to use.
+- Set specific interface's ip address, subnet mask
+
+example:
+```
+R2(config-if)# ip address 192.168.1.1 255.255.255.0
+```
+
+### show ip interface brief
+`show ip int br`
+- Show router interfaces information.
+
+example output:
+```
+R2# show ip interface brief
+Interface IP-Address OK? Method Status Protocol
+GigabitEthernet0/0/0 192.168.1.1 YES manual up up
+GigabitEthernet0/0/1 unassigned YES unset administratively down down
+Loopback0 209.165.200.225 YES manual up up
+Vlan1 unassigned YES unset administratively down down
+```
+
+### Setting up a interface's IP Address
+
+```
+R2(config)# interface g0/0/0
+R2(config-if)# description Connection to PC-A
+R2(config-if)# ip address 192.168.1.1 255.255.255.0
+R2(config-if)# no shutdown
+R2(config-if)# exit
+R2(config)# exit
+R2#
+```
+
+### Configuring a loopback interface
+To configure loopback interface, enter the commands as follows:
+
+```
+R2(config)# interface loopback 0
+ or
+R2(config)# interface lo0
+R2(config-if)# ip address 209.165.200.225 255.255.255.224
+```
+
