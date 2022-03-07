@@ -1,5 +1,41 @@
 # Networking Cheatsheet
 
+- [Networking Cheatsheet](#networking-cheatsheet)
+  * [About](#about)
+  * [Configuring IP Address on host](#configuring-ip-address-on-host)
+  * [Reloading a host device](#reloading-a-host-device)
+  * [Commands from host](#commands-from-host)
+    + [ping](#ping)
+    + [ipconfig /all](#ipconfig--all)
+    + [tracert](#tracert)
+  * [Lab 2a](#lab-2a)
+    + [enable](#enable)
+    + [configure terminal](#configure-terminal)
+    + [show version](#show-version)
+    + [show running-config](#show-running-config)
+    + [hostname](#hostname)
+    + [no ip domain-lookup](#no-ip-domain-lookup)
+    + [banner motd](#banner-motd)
+    + [show ip interface brief](#show-ip-interface-brief)
+    + [show interface status](#show-interface-status)
+  * [Lab 2b](#lab-2b)
+    + [show interfaces](#show-interfaces)
+    + [clear mac address-table](#clear-mac-address-table)
+    + [show mac address-table](#show-mac-address-table)
+  * [Lab 3a](#lab-3a)
+    + [vlan](#vlan)
+    + [config-vlan name](#config-vlan-name)
+    + [show vlan](#show-vlan)
+    + [show vlan brief](#show-vlan-brief)
+    + [Assigning VLANs to switch interfaces](#assigning-vlans-to-switch-interfaces)
+    + [Assigning VLANS to multiple interfaces.](#assigning-vlans-to-multiple-interfaces)
+    + [Removing VLAN assignment from an interface.](#removing-vlan-assignment-from-an-interface)
+    + [Remove VLAN ID from the VLAN database.](#remove-vlan-id-from-the-vlan-database)
+    + [Initiate trunking on interface](#initiate-trunking-on-interface)
+    + [show interfaces trunk](#show-interfaces-trunk)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 ## About
 This repository contains a collection of networking commands / notes for easier referencing in my networking module **(ICT 1010 Computer Networks)**.
 
@@ -381,7 +417,4 @@ Fa0/1 1,10,20
 Port Vlans in spanning tree forwarding state and not pruned
 Fa0/1 1,10,20 
 ```
-
-
-Add info here...
 
