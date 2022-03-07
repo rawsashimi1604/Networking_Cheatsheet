@@ -18,9 +18,9 @@ This repository contains a collection of networking commands / notes for easier 
 - Trace the route a data packet takes before reaching its destination, displaying information on each hop along the route.
 
 ### reload
-`delete vlan.dat
-`erase startup-config
-`reload
+`delete vlan.dat`
+`erase startup-config`
+`reload`
 - To erase startup config and reboot routers.
 
 ## Lab 2a
