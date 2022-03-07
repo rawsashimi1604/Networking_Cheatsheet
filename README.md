@@ -12,10 +12,12 @@ This repository contains a collection of networking commands / notes for easier 
 - Change IP Address, Subnet mask, Default gateway.
 
 ## Reloading a host device
-`en`<br>
-`delete vlan.dat`<br>
-`erase startup-config`<br>
-`reload`<br>
+```
+en
+delete vlan.dat
+erase startup-config
+reload
+```
 
 - Issue the reload command to remove an old configuration from memory. When prompted to Proceed with reload, press Enter to confirm the reload. Pressing any other key will abort the reload.
 
