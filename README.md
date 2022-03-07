@@ -139,6 +139,71 @@ Gig0/2                       notconnect   1          auto    auto  10/100BaseTX
 
 ## Lab 2b
 
+### show interfaces
+`show int <int>`
+- Display MAC address information for specified port.
 
+sample output:
+```
+Switch>show int f0/6
+FastEthernet0/6 is down, line protocol is down (disabled)
+  Hardware is Lance, address is 00e0.f9cc.1806 (bia 00e0.f9cc.1806)
+ BW 100000 Kbit, DLY 1000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Half-duplex, 100Mb/s
+  input flow-control is off, output flow-control is off
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:08, output 00:00:05, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue :0/40 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     956 packets input, 193351 bytes, 0 no buffer
+     Received 956 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     0 watchdog, 0 multicast, 0 pause input
+     0 input packets with dribble condition detected
+     2357 packets output, 263570 bytes, 0 underruns
+     0 output errors, 0 collisions, 10 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+```
+
+### clear mac address-table 
+`clear mac address-table dynamic`
+- Requires **ENABLE** mode to use.
+- Clears the dynamic (learned) MAC entries from the MAC address table.
+
+### show mac address-table
+`show mac address-table`
+- Displays the current switch's mac address table.
+
+sample output:
+```
+S1# show mac address-table
+ Mac Address Table
+-------------------------------------------
+Vlan Mac Address Type Ports
+---- ----------- -------- -----
+ All 0100.0ccc.cccc STATIC CPU
+ All 0100.0ccc.cccd STATIC CPU
+ All 0180.c200.0000 STATIC CPU
+ All 0180.c200.0001 STATIC CPU
+ All 0180.c200.0002 STATIC CPU
+ All 0180.c200.0003 STATIC CPU
+ All 0180.c200.0004 STATIC CPU
+ All 0180.c200.0005 STATIC CPU
+ All 0180.c200.0006 STATIC CPU
+ All 0180.c200.0007 STATIC CPU
+ All 0180.c200.0008 STATIC CPU
+ All 0180.c200.0009 STATIC CPU
+ All 0180.c200.000a STATIC CPU
+ All 0180.c200.000b STATIC CPU 
+```
 Add info here...
 
