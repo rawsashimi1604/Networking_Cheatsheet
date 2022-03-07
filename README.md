@@ -3,6 +3,14 @@
 ## About
 This repository contains a collection of networking commands / notes for easier referencing in my networking module **(ICT 1010 Computer Networks)**.
 
+## Configuring IP Address on host
+- Go to Windows Start > Settings
+- go to Network & Internet
+- select Ethernet and then Change adapter options
+- Right click Ethernet interface and select Properties.
+- Select Internet Protocol Version 4 (TCP/IPv4) and click Properties.
+- Change IP Address, Subnet mask, Default gateway.
+
 ## Commands from host
 
 ### ping
@@ -128,5 +136,9 @@ Fa0/24                       notconnect   1          auto    auto  10/100BaseTX
 Gig0/1                       notconnect   1          auto    auto  10/100BaseTX
 Gig0/2                       notconnect   1          auto    auto  10/100BaseTX
 ```
+
+## Lab 2b
+
+
 Add info here...
 
