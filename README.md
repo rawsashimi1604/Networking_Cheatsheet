@@ -240,5 +240,148 @@ Vlan Mac Address Type Ports
  All 0180.c200.000a STATIC CPU
  All 0180.c200.000b STATIC CPU 
 ```
+
+## Lab 3a
+
+### vlan
+`vlan <n>`
+- Requires **CONF T** mode to use.
+- Create vlan `<n>` on the switch.
+
+### config-vlan name
+`name <name>`
+- Requires **CONF T** and **VLAN** mode to use.
+- Changes vlan name to `<name>` on the switch.
+
+sample creating vlan:
+```
+S1(config)# vlan 10
+S1(config-vlan)# name Student
+```
+### show vlan
+`show vlan`
+- Show list of VLANs on device.
+
+sample output:
+```
+S1# show vlan
+VLAN Name Status Ports
+---- -------------------------------- --------- -------------------------------
+1 default active Fa0/1, Fa0/2, Fa0/3, Fa0/4
+Fa0/5, Fa0/6, Fa0/7, Fa0/8
+Fa0/9, Fa0/10, Fa0/11, Fa0/12
+Fa0/13, Fa0/14, Fa0/15, Fa0/16
+Fa0/17, Fa0/18, Fa0/19, Fa0/20
+Fa0/21, Fa0/22, Fa0/23, Fa0/24
+Gi0/1, Gi0/2
+10 Student active
+20 Faculty active
+1002 fddi-default act/unsup
+1003 token-ring-default act/unsup
+1004 fddinet-default act/unsup
+1005 trnet-default act/unsup
+VLAN Type SAID MTU Parent RingNo BridgeNo Stp BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+1 enet 100001 1500 - - - - - 0 0
+10 enet 100010 1500 - - - - - 0 0
+20 enet 100020 1500 - - - - - 0 0
+VLAN Type SAID MTU Parent RingNo BridgeNo Stp BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+1002 fddi 101002 1500 - - - - - 0 0
+1003 tr 101003 1500 - - - - - 0 0
+1004 fdnet 101004 1500 - - - ieee - 0 0
+1005 trnet 101005 1500 - - - ibm - 0 0
+Remote SPAN VLANs
+------------------------------------------------------------------------------
+Primary Secondary Type Ports
+------- --------- ----------------- ------------------------------------------ 
+
+```
+### show vlan brief
+`show vlan br`
+- Show VLAN mapping to interfaces.
+
+sample output:
+```
+Switch>show vlan br
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/1, Fa0/2, Fa0/3, Fa0/4
+                                                Fa0/5, Fa0/6, Fa0/7, Fa0/8
+                                                Fa0/9, Fa0/10, Fa0/11, Fa0/12
+                                                Fa0/13, Fa0/14, Fa0/15, Fa0/16
+                                                Fa0/17, Fa0/18, Fa0/19, Fa0/20
+                                                Fa0/21, Fa0/22, Fa0/23, Fa0/24
+                                                Gig0/1, Gig0/2
+10   VLAN0010                         active    
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active 
+```
+### Assigning VLANs to switch interfaces
+- Assign PC-A to the Student VLAN.
+
+```
+S1(config)# interface f0/6
+S1(config-if)# switchport mode access
+S1(config-if)# switchport access vlan 10
+```
+
+### Assigning VLANS to multiple interfaces.
+- Assign interface F0/11 - 24 to VLAN 10.
+
+```
+S1(config)# interface range f0/11-24
+S1(config-if-range)# switchport mode access
+S1(config-if-range)# switchport access vlan 10
+S1(config-if-range)# end
+```
+
+### Removing VLAN assignment from an interface.
+- Use the `no switchport access vlan` command to remove VLAN 10 assignment to F0/24.
+
+```
+S1(config)# interface f0/24
+S1(config-if)# no switchport access vlan
+S1(config-if)# end
+```
+
+### Remove VLAN ID from the VLAN database.
+- Use the `no vlan 30` command to remove VLAN 30 from the VLAN database. 
+- All ports associated with this VLAN will now not be associated with any VLAN...
+```
+S1(config)# no vlan 30
+S1(config)# end
+```
+
+### Initiate trunking on interface
+- Access interface, then use `switchport mode dynamic desirable` to convert interface to dynamic desirable mode. 
+- Both switches need to have the approriate trunking mode for trunking to work...
+- `switchport mode dynamic auto`, `switchport mode dynamic desirable`, `switchport mode access`, `switchport mode trunk`. (different modes) 
+```
+S1(config)# interface f0/1
+S1(config-if)# switchport mode dynamic desirable
+```
+
+### show interfaces trunk
+`show interfaces trunk`
+
+- Views trunked interfaces.
+
+sample output:
+```
+Port Mode Encapsulation Status Native vlan
+Fa0/1 desirable 802.1q trunking 1
+Port Vlans allowed on trunk
+Fa0/1 1-4094
+Port Vlans allowed and active in management domain
+Fa0/1 1,10,20
+Port Vlans in spanning tree forwarding state and not pruned
+Fa0/1 1,10,20 
+```
+
+
 Add info here...
 
