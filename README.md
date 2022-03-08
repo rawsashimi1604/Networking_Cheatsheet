@@ -47,6 +47,9 @@
     + [show ip interface brief](#show-ip-interface-brief-1)
     + [Setting up a interface's IP Address](#setting-up-a-interface-s-ip-address)
     + [Configuring a loopback interface](#configuring-a-loopback-interface)
+  * [Lab 5b](#lab-5b)
+    + [Configure HSRP](#configure-hsrp)
+
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
@@ -642,3 +645,71 @@ R2(config)# interface lo0
 R2(config-if)# ip address 209.165.200.225 255.255.255.224
 ```
 
+## Lab 5b
+
+### Configure HSRP
+- Hot Standby Router Protocol is a Cisco proprietary redundancy protocol for establishing a fault-tolerant default gateway.
+- Configure two or more routers as standby routers and only a single router as an active router. 
+- All the routers in a single HSRP group shares a single MAC address and IP address, which acts as a default gateway to the local network.
+- [HSRP version 1 VS version 2](https://www.ciscozine.com/why-use-hsrp-version-2/)
+- On active router/L3 switch: 
+```
+D1(config)# interface vlan 1
+D1(config-if)# standby version 2
+D1(config-if)# standby 1 ip 192.168.1.254
+D1(config-if)# standby 1 priority 150
+D1(config-if)# standby 1 preempt
+```
+- Default priority of 100. Set higher priority for router to be the active router.
+- Preempt needed for active router. In the case where active router is disabled and reconnected, active status will be automatically be re-established.
+- On standby router/L3 switch:
+```
+D3(config)# interface vlan 1
+D3(config-if)# standby version 2
+D3(config-if)# standby 1 ip 192.168.1.254
+```
+
+### Verify HSRP status
+`show standby`
+- Check HSRP status
+
+- example output:
+```
+D1#show standby
+Vlan1 - Group 1 (version 2)
+  State is Standby
+    17 state changes, last state change 02:53:37
+  Virtual IP address is 192.168.1.254
+  Active virtual MAC address is 0000.0C9F.F001
+    Local virtual MAC address is 0000.0C9F.F001 (v2 default)
+  Hello time 3 sec, hold time 10 sec
+    Next hello sent in 2.81 secs
+  Preemption enabled
+  Active router is 192.168.1.3, priority 200 (expires in 6 sec)
+    MAC address is 0000.0C9F.F001
+  Standby router is local
+  Priority 150 (configured 150)
+  Group name is hsrp-Vl1-1 (default)
+```
+
+`show standby brief`
+- View HSRP status summary
+
+- example output:
+```
+D1#show standby
+Vlan1 - Group 1 (version 2)
+  State is Standby
+    17 state changes, last state change 02:53:37
+  Virtual IP address is 192.168.1.254
+  Active virtual MAC address is 0000.0C9F.F001
+    Local virtual MAC address is 0000.0C9F.F001 (v2 default)
+  Hello time 3 sec, hold time 10 sec
+    Next hello sent in 2.81 secs
+  Preemption enabled
+  Active router is 192.168.1.3, priority 200 (expires in 6 sec)
+    MAC address is 0000.0C9F.F001
+  Standby router is local
+  Priority 150 (configured 150)
+  Group name is hsrp-Vl1-1 (default)
+```
