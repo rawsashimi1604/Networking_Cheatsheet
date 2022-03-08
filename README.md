@@ -649,6 +649,8 @@ R2(config-if)# ip address 209.165.200.225 255.255.255.224
 
 ### Configure HSRP
 - Hot Standby Router Protocol is a Cisco proprietary redundancy protocol for establishing a fault-tolerant default gateway.
+- Configure two or more routers as standby routers and only a single router as an active router. 
+- All the routers in a single HSRP group shares a single MAC address and IP address, which acts as a default gateway to the local network.
 - [HSRP version 1 VS version 2](https://www.ciscozine.com/why-use-hsrp-version-2/)
 - On active router/L3 switch: 
 ```
@@ -691,9 +693,9 @@ Vlan1 - Group 1 (version 2)
 ```
 
 `show standby brief`
--View HSRP status summary
+- View HSRP status summary
 
--example output:
+- example output:
 ```
 D1#show standby
 Vlan1 - Group 1 (version 2)
